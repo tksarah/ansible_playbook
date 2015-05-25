@@ -1,0 +1,18 @@
+---
+  - name: Utilities Install
+    apt: pkg={{item}} state=latest update_cache=yes
+    with_items:
+      - expect
+      - wget
+      - git
+      - dnsutils
+      - bind9-host
+
+  - name: NTP Install
+    apt: pkg=ntp state=present
+  - name: NTP Client Setting
+    template: src=ntp.conf.j2 dest=/etc/ntp.conf backup=yes
+    notify:
+      - restart ntpd
+  - name: Start NTP
+    service: name=ntp state=started

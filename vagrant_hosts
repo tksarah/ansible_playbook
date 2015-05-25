@@ -1,0 +1,2 @@
+192.168.100.10       ansible_ssh_port=22 ansible_ssh_private_key_file=/home/takeshi/vagrant/ubuntu14.04/.vagrant/machines/default/virtualbox/private_key
+127.0.0.1       ansible_ssh_port=2222 ansible_ssh_private_key_file=/home/takeshi/vagrant/trusty64/.vagrant/machines/default/virtualbox/private_key

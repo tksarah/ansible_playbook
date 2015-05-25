@@ -1,0 +1,9 @@
+---
+  - name: Run a phusion/baseimage container
+    docker:
+      name: test-container
+      image: phusion/baseimage:latest
+      pull: missing
+      command: "/bin/bash"
+      state: started
+      tty: True

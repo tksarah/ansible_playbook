@@ -1,0 +1,14 @@
+---
+  - name: Install r-base
+    apt: pkg={{item}} state=latest
+    with_items:
+      - r-base
+      - gdebi-core
+      - libapparmor1
+      - libssl0.9.8
+  - name: Get rstudio-server
+    get_url: url=http://download2.rstudio.org/{{rstudio}} dest=/tmp/{{rstudio}} owner=root
+  - name: Install rstudio-server
+    action: instrstudio file=/tmp/{{rstudio}}
+  - name: Verify Installation
+    command: /usr/lib/rstudio-server/bin/rstudio-server verify-installation

@@ -1,0 +1,22 @@
+- name: Create droplet in DigitalOcean
+  local_action:
+    module: digital_ocean
+      state=present
+      command=droplet
+      id=12345
+      name=mydroplet-zeppelin
+      ssh_key_ids={{ ssh_id.ssh_key.id }}
+      api_token={{ mytoken }}
+      image_id=ubuntu-14-04-x64
+      size_id=1gb
+      region_id=sgp1
+      wait_timeout=500
+  register: my_droplet
+  run_once: true
+- add_host: name={{ my_droplet.droplet.ip_address }} groupname=launched
+- debug: msg="ID is {{ my_droplet.droplet.id }}"
+- debug: msg="IP is {{ my_droplet.droplet.ip_address }}"
+
+- name: Wait for SSH to come up
+  wait_for: host={{ my_droplet.droplet.ip_address }} port=22 delay=10 timeout=320 state=started
+

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - ocean
+
+- hosts: launched
+  gather_facts: no
+  remote_user: root
+  roles:
+    - zeppelin

@@ -1,0 +1,7 @@
+- hosts: 127.0.0.1 
+  tasks:
+    - name: svm provisioning
+      local_action: svm_create.py storage='10.128.213.193' vserver_name='demo_svm2' root_volume_aggregate='aggr10'
+    - name: volume provisioning
+      local_action: volume_create.py storage='10.128.213.193' vserver_name='demo_svm2' volume_name='vol_1' aggr_name='aggr10'
+

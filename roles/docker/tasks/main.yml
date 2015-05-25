@@ -1,0 +1,19 @@
+---
+
+  - name: Install python-pip
+    apt: pkg=python-pip state=latest
+
+  - name: Setup Docker
+    shell: wget -qO- https://get.docker.com/ | sh  creates=/etc/default/docker
+
+  - name: Add a docker user
+    user: name={{myuser}} shell=/bin/bash password=$1$3FCsXQtq$EKWn6gqWXj6Gto9ogr.1s. groups=sudo,docker append=yes
+  - name: SSH Public Key Setting
+    authorized_key: user={{myuser}} key="{{ lookup('file','../files/secret_key.pub') }}"
+
+  - name: Upgrade pip
+    command: /usr/bin/easy_install -U pip
+  - name: Install docker-py # 1.2.x has a bug
+    pip: name=docker-py version=1.1.0
+
+  - include: run_container.yml

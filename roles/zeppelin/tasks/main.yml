@@ -1,0 +1,39 @@
+- name: Install Packages
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - openjdk-7-jdk
+    - git
+    - npm
+
+- name: Get maven
+  get_url: url={{ maven_url }} dest=/tmp/ owner=root
+- name: Unarchive a file
+  unarchive: src=/tmp/{{ maven_ver }}-bin.tar.gz  dest=/usr/local creates=/usr/local/{{ maven_ver }} copy=no
+
+- name: Create user
+  user: name={{ myuser }} shell=/bin/bash groups=sudo append=yes
+
+- name: Get Zeppelin source
+  git: repo=https://github.com/apache/incubator-zeppelin.git dest=/home/{{ myuser }}/incubator-zeppelin
+  sudo: yes
+  sudo_user: zeppelin
+
+- name: Set a maven path
+  lineinfile: "dest=~/.bash_login line='export PATH=/usr/local/{{ maven_ver }}/bin:$PATH' state=present create=yes"
+  sudo: yes
+  sudo_user: zeppelin
+
+- name: Set a java path
+  lineinfile: "dest=~/.bash_login line='export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64'"
+  sudo: yes
+  sudo_user: zeppelin
+
+- name: Build
+  shell: /bin/bash -lc "mvn clean package -Pspark-1.3 -DskipTests" chdir=/home/{{ myuser }}/incubator-zeppelin
+  sudo: yes
+  sudo_user: zeppelin
+
+- name: Start Zeppelin
+  shell: /bin/bash -lc "/home/{{ myuser }}/incubator-zeppelin/bin/zeppelin-daemon.sh start" chdir=/home/{{ myuser }}/incubator-zeppelin
+  sudo: yes
+  sudo_user: zeppelin

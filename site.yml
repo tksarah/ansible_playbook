@@ -1,0 +1,13 @@
+---
+- hosts: "{{ target }}"
+
+  user: vagrant
+  sudo: yes
+
+  roles:
+#    - common
+#    - ansible
+#    - docker
+#    - rstudio
+    - ocean
+

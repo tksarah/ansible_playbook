@@ -1,0 +1,6 @@
+---
+  - name: Install Ansible 
+    apt: pkg={{item}} state=latest update_cache=yes
+    with_items:
+      - ansible
+      - git
