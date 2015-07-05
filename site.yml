@@ -1,13 +1,14 @@
 ---
 - hosts: "{{ target }}"
+  gather_facts: no
 
   user: vagrant
   sudo: yes
 
   roles:
-#    - common
+    - common
 #    - ansible
 #    - docker
 #    - rstudio
-    - ocean
+#    - ocean
 

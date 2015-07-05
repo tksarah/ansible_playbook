@@ -18,4 +18,5 @@
     service: name=ntp state=started
   
   - name: Replace resolv.conf
+    tags: resolv
     template: src=resolv.conf.j2 dest=/etc/resolv.conf backup=yes
