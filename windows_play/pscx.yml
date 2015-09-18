@@ -1,0 +1,13 @@
+- name: Grab PSCX msi
+  tags: pscx
+  win_get_url:
+    url: 'https://dl.dropboxusercontent.com/u/16563406/Pscx-3.2.0.msi'
+    proxy_url: 'http://10.10.10.10:8080'
+    user: 'ABC'
+    pass: 'ABC'
+    dest: '{{ mydir }}\pscx.msi'
+
+- name: Install PSCX
+  tags: pscx
+  win_msi:
+    path: '{{ mydir }}\pscx.msi'

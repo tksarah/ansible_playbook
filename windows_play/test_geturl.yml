@@ -1,0 +1,33 @@
+- name: Get a file test1
+  tags: getfile
+  win_get_url:
+    url: 'http://sarah.secret.jp/worklog/wp-content/uploads/2015/03/pen8-300x209.jpg'
+    dest: '{{ mydir }}\no_proxy_testfile1.jpg'
+  ignore_errors: True
+
+- name: Get a file test2
+  tags: getfile
+  win_get_url:
+    url: 'http://sarah.secret.jp/worklog/wp-content/uploads/2015/03/pen8-300x209.jpg'
+    proxy_url: 'http://10.10.10.10:8080'
+    proxy_username: 'ABC'
+    proxy_password: 'ABC'
+    dest: '{{ mydir }}\testfile2.jpg'
+  ignore_errors: True
+
+- name: Get a file test3
+  tags: getfile
+  win_get_url:
+    url: 'https://dl.dropboxusercontent.com/u/16563406/Pscx-3.2.0.msi'
+    dest: '{{ mydir }}\no_proxy_testfile3.msi'
+  ignore_errors: True
+
+- name: Get a file test4
+  tags: getfile
+  win_get_url:
+    url: 'https://dl.dropboxusercontent.com/u/16563406/Pscx-3.2.0.msi'
+    proxy_url: 'http://10.10.10.10:8080'
+    proxy_username: 'ABC'
+    proxy_password: 'ABC'
+    dest: '{{ mydir }}\testfile4.msi'
+  ignore_errors: True

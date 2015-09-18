@@ -1,0 +1,51 @@
+
+# win_regist
+- name: Set Registry
+  tags: reg
+  win_regedit:
+    key: HKCU:\Software\MyCompany
+    value: hello
+    data: 1337
+    datatype: dword
+
+- name: Delete Registry
+  tags: del-reg
+  win_regedit:
+    key: HKCU:\Software\MyCompany
+    value: hello
+    state: absent
+
+# win_environment
+- name: Set Environment
+  tags: env
+  win_environment:
+    state: present
+    name: TestVariable
+    value: "Test value"
+    level: machine
+
+- name: Set Environment
+  tags: del-env
+  win_environment:
+    state: absent
+    name: TestVariable
+    level: machine
+
+# win_unzip
+- name: Grab unzip a file
+  tags: unzip-dl
+  win_get_url:
+    url: 'https://dl.dropboxusercontent.com/u/16563406/a.zip'
+    proxy_url: 'http://10.10.10.10:8080'
+    user: 'ABC'
+    pass: 'ABC'
+    dest: '{{ mydir }}\a.zip'
+  
+- name: Unzip file
+  tags: unzip
+  win_unzip:
+    src: '{{ mydir }}\a.zip'
+    dest: '{{ mydir }}\archive'
+    recurse: yes
+    rm: true
+    creates: '{{ mydir }}\archive'

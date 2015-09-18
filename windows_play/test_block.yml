@@ -1,0 +1,10 @@
+- block:
+  - name: Grab vagrant.msi
+    action: win_ping
+
+  - name: Install Vagrant
+    action: win_ping
+
+  when: testflag
+  #become: true
+  #become_user: root

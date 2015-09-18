@@ -1,0 +1,107 @@
+    - name: Test ping
+      tags: ping
+      action: win_ping
+
+    - name: Copy a file
+      tags: copy
+      win_copy: src=chocolatey.0.9.10-alpha-20150725.zip dest={{ mydir }}
+
+    ### Pass and Miss
+    - name: By Chocolatey
+      tags: choco
+      win_chocolatey:
+        name: git
+        state: present
+
+    - name: Install Telnet Client
+      tags: telnet
+      win_feature:
+        name: "Telnet-Client"
+        state: present
+        restart: no
+        include_sub_features: no
+        include_management_tools: no
+
+    - name: Create directory structure
+      tags: dir
+      win_file: path={{ mydir }}\testfolder state=directory
+
+    - name: Get a file from web site
+      tags: geturl
+      win_get_url:
+        url: 'http://sarah.secret.jp/worklog/wp-content/uploads/2015/03/pen8-300x209.jpg'
+        dest: '{{ mydir }}\test.jpg'
+
+    - name: Create group
+      tags: cgroup
+      win_group:
+        name: deploy
+        description: Deploy Group
+        state: present
+
+    - name: Add a user
+      tags: cuser
+      win_user:
+        name: ansible
+        password: "eisaku@36"
+        groups: ["Users"]
+        state: present
+
+    - name: Template
+      tags: temp
+      win_template: src=./ntp.conf.j2 dest={{ mydir }} backup=yes
+
+    - name: Returns information about a Windows file
+      tags: stat_file
+      win_stat: path={{ mydir }}\win.ini
+      register: stat_file
+    - debug: var=stat_file
+    - name: Check stat_file result
+      tags: check_stat
+      assert:
+        that:
+          - "stat_file.stat.exists"
+          - "not stat_file.stat.isdir"
+          - "stat_file.stat.size > 0"
+          - "stat_file.stat.md5"
+
+    - name: Update
+      tags: update
+      win_updates:
+        category: critical # critical or security
+
+    - name: Restart a service
+      tags: service
+      win_service:
+        name: snmptrap
+        state: started
+
+    - name: MSI Install
+      tags: msi
+      win_msi: path={{ mydir }}\vagrant_1.7.2.msi state=present 
+
+
+    - name: slurp module
+      tags: slurp
+      slurp:
+        src: '{{ mydir }}\win.ini'
+
+    - name: fetch module
+      tags: fetch
+      fetch:
+        src: '{{ mydir }}\ntp.conf.txt'
+        dest: ./test
+
+    - name: raw module
+      tags: raw
+      raw: ipconfig
+      register: ipconfig
+    - debug: var=ipconfig
+
+
+    - name: Install the TeraPad
+      tags: package
+      win_package:
+        name="TeraPad"
+        path=C:\Users\Administrator\Desktop\tpad109.ex
+        productid="{}"

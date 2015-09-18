@@ -1,0 +1,18 @@
+- block:
+ - name: Grab vagrant.msi
+   tags: vagrant
+   win_get_url:
+     url: 'https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4.msi'
+     proxy_url: 'http://10.10.10.10:8080'
+     user: 'ABC'
+     pass: 'ABC'
+     dest: '{{ mydir }}\vagrant.msi'
+
+ - name: Install Vagrant
+   tags: vagrant
+   win_msi:
+     path: '{{ mydir }}\vagrant.msi'
+
+when: {{ testflag }}  == 'true' 
+become: true
+become_user: root
