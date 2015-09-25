@@ -1,16 +1,18 @@
+#  image_id=13089493(Ubuntu 14.04 x64) 13090046(CentOS 6.7 x64) 10322623(CentOS 7 x64)
 - name: Create droplet in DigitalOcean
-  local_action:
-    module: digital_ocean
-      state=present
-      command=droplet
-      id=12345
-      name=mydroplet-zeppelin
-      ssh_key_ids={{ ssh_id.ssh_key.id }}
-      api_token={{ mytoken }}
-      image_id=ubuntu-14-04-x64
-      size_id=1gb
-      region_id=sgp1
-      wait_timeout=500
+  tags: droplet
+  digital_ocean:
+    state=present
+    command=droplet
+    id={{ did }}
+    name=mydroplet-wordpress
+    ssh_key_ids={{ ssh_id.ssh_key.id }}
+    api_key={{ mytoken }}
+    client_id={{ clientid }}
+    image_id=10322623
+    size_id=66
+    region_id=6
+    wait_timeout=500
   register: my_droplet
   run_once: true
 - add_host: name={{ my_droplet.droplet.ip_address }} groupname=launched
