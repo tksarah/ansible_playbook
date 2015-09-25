@@ -1,0 +1,12 @@
+- name: Ensure a SSH key is present
+  tags: ssh
+  digital_ocean:
+    state=present
+    command=ssh
+    name=my_ssh_key
+    ssh_pub_key='ssh-rsa ...'
+    client_id={{ clientid }}
+    api_key={{ mytoken }}
+  register: ssh_id
+  run_once: true
+- debug: msg="SSH_KEY_ID is {{ ssh_id.ssh_key.id }}"

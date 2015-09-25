@@ -1,0 +1,26 @@
+- name: Install Packages for CentOS 7
+  yum: name={{ item }} state=latest
+  with_items:
+    - php
+    - php-mysql
+    - mariadb-server
+    - MySQL-python
+
+- name: Start and Enable mariadb
+  service: name=mariadb state=started enabled=yes
+- name: Create Database for wordpress
+  mysql_db: name={{ dbname }} state=present
+- name: Create user for wordpress
+  mysql_user: name={{ dbuser }} password={{ dbpassword }} priv="wordpress.*:ALL" host=localhost state=present
+
+- name: Get WordPress
+  get_url: url=http://ja.wordpress.org/latest-ja.tar.gz dest=/tmp/latest-ja.tar.gz owner=root
+- name: Unarchive a file
+  unarchive: src=/tmp/latest-ja.tar.gz dest=/var/www/html copy=no creates=/var/www/html/wordpress # version 1.6 <
+- name: Copy wp-config.php
+  template: src=wp-config.php.j2 dest={{ doc_root }}/wordpress/wp-config.php mode=0666
+- name: Change Owner and Group
+  file: path={{ doc_root }} state=directory recurse=yes owner=apache group=apache
+
+- name: Start and Enable httpd
+  service: name=httpd state=started enabled=yes

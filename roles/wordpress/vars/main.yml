@@ -1,0 +1,4 @@
+dbname: wordpress
+dbuser: wordpress
+dbpassword: password
+doc_root: /var/www/html
