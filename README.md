@@ -1,2 +1,2 @@
 # Ansible Playbooks
-[[CONFIG.md|aaa]]
+[Usage Roles](/CONFIG.md/)
