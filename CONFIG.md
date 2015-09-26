@@ -9,6 +9,6 @@
 3. set "client id" and "api v1 token" in ocean_v1/vars/main.yml
 4. create SSH Key
 5. set SSH secret key in private_key_file
-6. set SSH pub key in add_sshkey.yml
+6. set SSH pub key in ocean_v1/tasks/add_sshkey.yml
 
 ### v2
