@@ -14,7 +14,7 @@ Usage Roles
 
 ### v2
 2. create "api v2 key" on DigitalOcean
-3. set and "api v2 key" in ocean_v1/vars/main.yml
+3. set and "api v2 key" in ocean_v2/vars/main.yml
 4. create SSH Key
 5. set SSH secret key in private_key_file
-6. set SSH pub key in ocean_v1/tasks/add_sshkey.yml
+6. set SSH pub key in ocean_v2/tasks/add_sshkey.yml
