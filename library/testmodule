@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+
+my $file = $ARGV[0];
+my $key;
+my $value;
+my $ret1;
+my $ret2;
+
+open(R,"<$file");
+        while(<R>){
+        ($key,$value) = split(/=/,$_);
+        }
+close(R);
+
+$ret1 = system ("cho 'TEST' > /tmp/testfile ");
+#system ("rm /tmp/testfile ");
+$ret2 = system ("ls /tmp/testfile ");
+
+# ok
+if( $ret1 == 0 && $ret2 != 0){
+        print '{ "rc": 0, "changed": false }';
+        exit 0;
+# ok and changed
+}elsif( $ret1 == 0 && $ret2 == 0 ){
+        print '{ "rc": 0, "changed": true }';
+        exit 0
+# fail
+}else{
+        print '{ "rc": 1, "failed": true }';
+        exit 1;
+}
